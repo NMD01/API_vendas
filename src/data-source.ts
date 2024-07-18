@@ -15,11 +15,3 @@ export const AppDataSource = new DataSource({
   migrations: ['src/shared/typeorm/migrations/*.ts'],
   subscribers: [],
 });
-
-// AppDataSource.initialize()
-//   .then(() => {
-//     console.log('Data Source has been initialized!');
-//   })
-//   .catch(err => {
-//     console.error('Error during Data Source initialization:', err);
-//   });

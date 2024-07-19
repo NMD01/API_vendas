@@ -1,5 +1,6 @@
-import { AppDataSource } from '../../../data-source';
 import { Products } from '../typeorm/entities/product';
+import { ProductRepository } from '../typeorm/repositories/ProductsRepository';
+import AppErrors from '@shared/errors/AppError';
 
 interface IRequest {
   name: string;
@@ -8,9 +9,22 @@ interface IRequest {
 }
 
 class CreateProductService {
-  public async execute({ name, price, quantity }: IRequest) {
-    const myCustomRepository = AppDataSource.getRepository(Products);
+  public async execute({ name, price, quantity }: IRequest): Promise<Products> {
+    const productsExists = await ProductRepository.findByName(name);
 
-    const productsExists = await myCustomRepository.findByName(name);
+    if (productsExists) {
+      throw new AppErrors('There is already one product with this name!');
+    }
+
+    const product = ProductRepository.create({
+      name,
+      price,
+      quantity,
+    });
+    await ProductRepository.save(product);
+
+    return product;
   }
 }
+
+export default CreateProductService;

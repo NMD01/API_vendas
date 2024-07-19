@@ -1,7 +1,7 @@
 import { Products } from '../typeorm/entities/product';
 import { ProductRepository } from '../typeorm/repositories/ProductsRepository';
 
-class ListProductService {
+class ListProductsService {
   public async execute(): Promise<Products[]> {
     const productsList = await ProductRepository.find();
 
@@ -9,4 +9,4 @@ class ListProductService {
   }
 }
 
-export default ListProductService;
+export default ListProductsService;

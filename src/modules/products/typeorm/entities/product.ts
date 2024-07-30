@@ -27,4 +27,3 @@ export class Products {
   updated_at: Date;
 }
 
-// export default Products;

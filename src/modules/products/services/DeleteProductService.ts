@@ -1,12 +1,11 @@
 import AppErrors from '@shared/errors/AppError';
-import { Products } from '../typeorm/entities/product';
 import { ProductRepository } from '../typeorm/repositories/ProductsRepository';
 
 interface IRequest {
   id: string;
 }
 
-class ShowProductService {
+class DeleteProductService {
   public async execute({ id }: IRequest): Promise<void> {
     const product = await ProductRepository.findOneBy({ id });
 
@@ -18,4 +17,4 @@ class ShowProductService {
   }
 }
 
-export default ShowProductService;
+export default DeleteProductService;

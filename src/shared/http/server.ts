@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
+import "express-async-errors"
 import cors from 'cors';
 import routes from '@shared/http/routes/index';
 import AppErrors from '@shared/errors/AppError';
@@ -26,5 +27,5 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.listen(3333, () => {
-  console.log('server started on port 3333!');
+  console.log('http://localhost:3333');
 });

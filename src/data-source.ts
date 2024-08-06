@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { Products } from './modules/products/typeorm/entities/product';
+import User from '@modules/users/typeorm/entities/user';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -11,7 +12,7 @@ export const AppDataSource = new DataSource({
   database: 'apivendas',
   synchronize: true,
   logging: false,
-  entities: [Products],
+  entities: [Products, User],
   migrations: ['src/shared/typeorm/migrations/*.ts'],
   subscribers: [],
 });

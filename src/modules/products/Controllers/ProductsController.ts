@@ -8,7 +8,6 @@ import DeleteProductService from '../services/DeleteProductService';
 export default class ProductsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const ListProducts = new ListProductsService();
-
     const products = await ListProducts.execute();
 
     return response.json(products);
@@ -18,7 +17,6 @@ export default class ProductsController {
     const { id } = request.params;
 
     const ShowProduct = new ShowProductService();
-
     const product = await ShowProduct.execute({ id });
 
     return response.json(product);
@@ -28,7 +26,6 @@ export default class ProductsController {
     const { name, price, quantity } = request.body;
 
     const CreateProduct = new CreateProductService();
-
     const product = await CreateProduct.execute({ name, price, quantity });
 
     return response.json(product);
@@ -39,7 +36,6 @@ export default class ProductsController {
     const { name, price, quantity } = request.body;
 
     const UpdateProduct = new UpdateProductService();
-
     const product = await UpdateProduct.execute({ id, name, price, quantity });
 
     return response.json(product);
@@ -49,7 +45,6 @@ export default class ProductsController {
     const { id } = request.params;
 
     const DeleteProduct = new DeleteProductService();
-
     await DeleteProduct.execute({ id });
 
     return response.json([]);

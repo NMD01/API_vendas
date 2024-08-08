@@ -31,7 +31,7 @@ userRouter.put("/:id", celebrate({
 
   [Segments.BODY]:{
     name: Joi.string(),
-    email: Joi.string().required(),
+    email: Joi.string().email(),
     password: Joi.string()
   }
 }), usersController.update)

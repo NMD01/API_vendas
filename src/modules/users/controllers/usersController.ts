@@ -19,6 +19,8 @@ export default class UsersController {
     const showUser = new ShowUserService();
     const user = await showUser.execute({ id });
 
+    console.log(request.user.id)
+
     return response.json(user);
   }
 

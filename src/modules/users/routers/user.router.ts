@@ -1,48 +1,51 @@
-import { Router } from "express";
-import { celebrate, Joi, Segments} from "celebrate";
-import UsersController from "../controllers/usersController";
-import isAuthenticated from "../../../shared/http/middlewares/isAuthenticated";
+import { Router } from 'express';
+import { celebrate, Joi, Segments } from 'celebrate';
+import UsersController from '../controllers/usersController';
+import isAuthenticated from '../../../shared/http/middlewares/isAuthenticated';
+import UserAvatarController from '../controllers/UserAvatarController';
+import multer from 'multer';
+import uploadConfig from '@config/upload';
 
-const userRouter = Router()
-const usersController = new UsersController()
+const userRouter = Router();
+const usersController = new UsersController();
+const userAvatarController = new UserAvatarController();
+const upload = multer(uploadConfig);
 
-userRouter.get("/", isAuthenticated, usersController.index)
-userRouter.get("/:id",
+userRouter.get('/', isAuthenticated, usersController.show);
+userRouter.get('/all', isAuthenticated, usersController.index);
+
+userRouter.post(
+  '/',
   celebrate({
-    [Segments.PARAMS]:{
-      id: Joi.string().uuid().required()
-    }
-  })
-  , isAuthenticated,usersController.show)
-
-
-  userRouter.post("/", celebrate({
-    [Segments.BODY]:{
+    [Segments.BODY]: {
       name: Joi.string().required(),
       email: Joi.string().required().email(),
-      password: Joi.string().required()
-    }
-  }), usersController.create)
+      password: Joi.string().required(),
+    },
+  }),
+  usersController.create,
+);
 
+userRouter.put(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string(),
+      email: Joi.string().email(),
+      password: Joi.string(),
+    },
+  }),
+  isAuthenticated,
+  usersController.update,
+);
 
-userRouter.put("/:id", celebrate({
-  [Segments.PARAMS]:{
-    id: Joi.string().uuid().required()
-  },
+userRouter.patch(
+  '/avatar',
+  isAuthenticated,
+  upload.single('avatar'),
+  userAvatarController.update,
+);
 
-  [Segments.BODY]:{
-    name: Joi.string(),
-    email: Joi.string().email(),
-    password: Joi.string()
-  }
-}), isAuthenticated, usersController.update)
+userRouter.delete('/', isAuthenticated, usersController.delete);
 
-
-userRouter.delete("/:id", celebrate({
-  [Segments.PARAMS]:{
-    id: Joi.string().uuid().required()
-  }
-}), usersController.delete)
-
-
-export default userRouter
+export default userRouter;

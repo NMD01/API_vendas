@@ -6,7 +6,7 @@ import SessionsRouter from '@modules/users/routers/session.router';
 const routes = Router();
 
 routes.use("/products", routerProducts)
-routes.use("/users", routerUser)
+routes.use("/user", routerUser)
 routes.use("/session", SessionsRouter)
 
 export default routes;

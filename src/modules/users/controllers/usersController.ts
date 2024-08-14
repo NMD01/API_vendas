@@ -14,12 +14,10 @@ export default class UsersController {
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
+    const  id  = request.user.id;
 
     const showUser = new ShowUserService();
     const user = await showUser.execute({ id });
-
-    console.log(request.user.id)
 
     return response.json(user);
   }
@@ -38,7 +36,7 @@ export default class UsersController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
+    const  id  = request.user.id;
     const { name, email, password } = request.body;
 
     const updateUser = new UpdateUserService();
@@ -53,7 +51,7 @@ export default class UsersController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
+    const  id  = request.user.id;
 
     const deleteUser = new DeleteUserService();
     const user = await deleteUser.execute({ id });

@@ -24,7 +24,6 @@ export default function isAuthenticated(
 
   try {
     const decodeToken = verify(token, auth.jwt.secret);
-
     const { sub } = decodeToken as ITokenPayload;
     request.user = {
       id: sub

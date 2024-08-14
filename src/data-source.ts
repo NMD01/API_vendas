@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { Products } from './modules/products/typeorm/entities/product';
 import User from './modules/users/typeorm/entities/user';
+import UserToken from './modules/users/typeorm/entities/userToken';
 import dotenv from 'dotenv';
 import { any } from 'joi';
 dotenv.config();
@@ -15,7 +16,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DATABASE_DB,
   synchronize: false,
   logging: false,
-  entities: [Products, User],
+  entities: [Products, User, UserToken],
   migrations: ['src/shared/typeorm/migrations/*.ts'],
   subscribers: [],
 });

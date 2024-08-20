@@ -8,7 +8,7 @@ interface IvariableTemplate {
 }
 
 interface IParseMailTemplate {
-  template: string;
+  file: string;
   variables: IvariableTemplate
 }
 
@@ -53,7 +53,6 @@ export default class EtherealEmail {
       html: await MailTemplate.parser(templateData),
     });
 
-    //console.log('Message sent: %s', message.messageId);
-    console.log('Preview URL: %s', nodeMailer.getTestMessageUrl(message));
+    console.log('Email teste: %s', nodeMailer.getTestMessageUrl(message));
   }
 }

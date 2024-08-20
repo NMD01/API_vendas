@@ -1,12 +1,33 @@
 import nodeMailer from 'nodemailer';
+import EJSMailTemplate from './EJSMailTemplate';
 
-interface IsendEmail {
-  to: string;
-  body: string;
+
+
+interface IvariableTemplate {
+  [key: string]: string | number;
 }
 
+interface IParseMailTemplate {
+  template: string;
+  variables: IvariableTemplate
+}
+
+interface IEmailContact {
+  name: string;
+  email: string;
+}
+
+interface IsendEmail {
+  from?: IEmailContact;
+  to: IEmailContact;
+  subject: string;
+  templateData: IParseMailTemplate;
+}
+
+const MailTemplate = new EJSMailTemplate()
+
 export default class EtherealEmail {
-  static async SendEmail({ to, body }: IsendEmail): Promise<void> {
+  static async SendEmail({from, to, subject, templateData }: IsendEmail): Promise<void> {
     const account = await nodeMailer.createTestAccount();
 
     const transport = nodeMailer.createTransport({
@@ -20,12 +41,17 @@ export default class EtherealEmail {
     });
 
     const message = await transport.sendMail({
-      from: 'equipe@api_vendas',
-      to,
-      subject: 'Recuperação de Senha',
-      text: body,
+      from: {
+        name: from?.name || "API Vendas",
+        address: from?.email || "equipe@api_vendas.com"
+      },
+      to:{
+        name: to.name,
+        address: to.email
+      },
+      subject,
+      html: await MailTemplate.parser(templateData),
     });
-
 
     //console.log('Message sent: %s', message.messageId);
     console.log('Preview URL: %s', nodeMailer.getTestMessageUrl(message));

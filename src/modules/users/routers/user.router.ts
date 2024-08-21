@@ -32,7 +32,11 @@ userRouter.put(
     [Segments.BODY]: {
       name: Joi.string(),
       email: Joi.string().email(),
-      password: Joi.string(),
+      new_password: Joi.string(),
+      new_password_confirm: Joi.string()
+        .required()
+        .valid(Joi.ref('new_password')),
+      old_password: Joi.string().required(),
     },
   }),
   isAuthenticated,

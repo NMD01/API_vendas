@@ -11,7 +11,6 @@ const usersController = new UsersController();
 const userAvatarController = new UserAvatarController();
 const upload = multer(uploadConfig);
 
-userRouter.get('/', isAuthenticated, usersController.show);
 userRouter.get('/all', isAuthenticated, usersController.index);
 
 userRouter.post(
@@ -26,30 +25,11 @@ userRouter.post(
   usersController.create,
 );
 
-userRouter.put(
-  '/',
-  celebrate({
-    [Segments.BODY]: {
-      name: Joi.string(),
-      email: Joi.string().email(),
-      new_password: Joi.string(),
-      new_password_confirm: Joi.string()
-        .required()
-        .valid(Joi.ref('new_password')),
-      old_password: Joi.string().required(),
-    },
-  }),
-  isAuthenticated,
-  usersController.update,
-);
-
 userRouter.patch(
   '/avatar',
   isAuthenticated,
   upload.single('avatar'),
   userAvatarController.update,
 );
-
-userRouter.delete('/', isAuthenticated, usersController.delete);
 
 export default userRouter;
